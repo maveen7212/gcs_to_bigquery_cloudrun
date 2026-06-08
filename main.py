@@ -3,10 +3,14 @@ from google.cloud import bigquery
 
 app = Flask(__name__)
 
-@app.route("/")
-def load_data():
+client = bigquery.Client()
 
-    client = bigquery.Client()
+@app.route("/")
+def home():
+    return "Cloud Run is running"
+
+@app.route("/load")
+def load_data():
 
     uri = "gs://sale-data-bkt/sales.txt"
 
@@ -24,4 +28,4 @@ def load_data():
 
     load_job.result()
 
-    return "Data Loaded Successfully bigquery"
+    return "Data Loaded bigquery Successfully"
