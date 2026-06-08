@@ -1,26 +1,31 @@
-steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - build
-      - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest'
-      - '.'
+from flask import Flask
+from google.cloud import bigquery
 
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - push
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest'
+app = Flask(__name__)
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
-    args:
-      - run
-      - deploy
-      - gcs-bigquery-loader
-      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest'
-      - '--region=us-central1'
-      - '--platform=managed'
-      - '--allow-unauthenticated'
+client = bigquery.Client()
 
-options:
-  logging: CLOUD_LOGGING_ONLY
+@app.route("/")
+def home():
+    return "Cloud Run is running"
+
+@app.route("/load")
+def load_data():
+
+    uri = "gs://sale-data-bkt/sales.txt"
+
+    job_config = bigquery.LoadJobConfig(
+        source_format=bigquery.SourceFormat.CSV,
+        skip_leading_rows=1,
+        autodetect=True
+    )
+
+    load_job = client.load_table_from_uri(
+        uri,
+        "project-77158318-bf9d-4d5d-bcc.gcp_project.sales_data",
+        job_config=job_config
+    )
+
+    load_job.result()
+
+    return "Data Loaded to bigquery Successfully"
