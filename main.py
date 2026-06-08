@@ -28,4 +28,4 @@ def load_data():
 
     load_job.result()
 
-    return "Data Loaded bigquery Successfully"
+    return "Data Loaded  gcs to bigquery Successfully"
