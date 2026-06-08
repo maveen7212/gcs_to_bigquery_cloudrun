@@ -1,26 +1,26 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args:
-    - build
-    - -t
-    - us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/app:$SHORT_SHA
-    - .
+    - 'build'
+    - '-t'
+    - 'us-central1-docker.pkg.dev/project-77158318-bf9d-4d5d-bcc/myrepo/my-python-app:latest'
+    - '.'
 
 - name: 'gcr.io/cloud-builders/docker'
   args:
-    - push
-    - us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/app:$SHORT_SHA
+    - 'push'
+    - 'us-central1-docker.pkg.dev/project-77158318-bf9d-4d5d-bcc/myrepo/my-python-app:latest'
 
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
-    - run
-    - deploy
-    - gcs-bigquery-loader
-    - --image=us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/app:$SHORT_SHA
-    - --region=us-central1
-    - --platform=managed
-    - --allow-unauthenticated
+    - 'run'
+    - 'deploy'
+    - 'my-python-app'
+    - '--image=us-central1-docker.pkg.dev/project-77158318-bf9d-4d5d-bcc/myrepo/my-python-app:latest'
+    - '--region=us-central1'
+    - '--platform=managed'
+    - '--allow-unauthenticated'
 
 options:
   logging: CLOUD_LOGGING_ONLY
