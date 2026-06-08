@@ -1,29 +1,29 @@
 steps:
-# Build Docker Image
+# Build
 - name: 'gcr.io/cloud-builders/docker'
   args:
-    - 'build'
-    - '-t'
-    - 'us-central1-docker.pkg.dev/project-77158318-bf9d-4d5d-bcc/myrepo/gcs-bigquery-loader:latest'
-    - '.'
+    - build
+    - -t
+    - us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest
+    - .
 
-# Push Image to Artifact Registry
+# Push
 - name: 'gcr.io/cloud-builders/docker'
   args:
-    - 'push'
-    - 'us-central1-docker.pkg.dev/project-77158318-bf9d-4d5d-bcc/myrepo/gcs-bigquery-loader:latest'
+    - push
+    - us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest
 
-# Deploy to Cloud Run
+# Deploy
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
-    - 'run'
-    - 'deploy'
-    - 'gcs-bigquery-loader'
-    - '--image=us-central1-docker.pkg.dev/project-77158318-bf9d-4d5d-bcc/myrepo/gcs-bigquery-loader:latest'
-    - '--region=us-central1'
-    - '--platform=managed'
-    - '--allow-unauthenticated'
+    - run
+    - deploy
+    - gcs-bigquery-loader
+    - --image=us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest
+    - --region=us-central1
+    - --platform=managed
+    - --allow-unauthenticated
 
 options:
   logging: CLOUD_LOGGING_ONLY
