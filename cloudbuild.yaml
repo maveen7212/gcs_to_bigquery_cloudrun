@@ -1,5 +1,4 @@
 steps:
-# Build
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - build
@@ -7,13 +6,11 @@ steps:
     - us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest
     - .
 
-# Push
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - push
     - us-central1-docker.pkg.dev/$PROJECT_ID/myrepo/gcs-bigquery-loader:latest
 
-# Deploy
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
