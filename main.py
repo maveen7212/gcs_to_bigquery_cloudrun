@@ -26,6 +26,7 @@ def load_data():
         job_config=job_config
     )
 
+
     load_job.result()
 
-    return "Data Loaded  gcs to bigquery Successfully"
+    return "Data Loaded  gcs to bigquery"
