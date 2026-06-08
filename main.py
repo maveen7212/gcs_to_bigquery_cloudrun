@@ -24,4 +24,4 @@ def load_data():
 
     load_job.result()
 
-    return "Data Loaded Successfully"
+    return "Data Loaded Successfully bigquery"
